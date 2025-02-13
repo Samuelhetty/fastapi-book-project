@@ -70,7 +70,7 @@ async def delete_book(book_id: int) -> None:
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
 
 
-@router.get("/{author_name}", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK)
+@router.get("/search/by_author/{author_name}", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK)
 async def search_books_by_author(author_name: str) -> OrderedDict[int, Book]:
     books_by_author = {
         book_id: book
