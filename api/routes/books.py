@@ -69,27 +69,3 @@ async def delete_book(book_id: int) -> None:
     db.delete_book(book_id)
     return JSONResponse(status_code=status.HTTP_204_NO_CONTENT, content=None)
 
-
-@router.get("/search/by_author/{author_name}", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK)
-async def search_books_by_author(author_name: str) -> OrderedDict[int, Book]:
-    books_by_author = {
-        book_id: book
-        for book_id, book in db.books.items()
-        if author_name.lower() in book.author.lower()
-    }
-    if not books_by_author:
-        raise HTTPException(status_code=404, detail="No books found by this author")
-    return books_by_author
-
-
-@router.get("/search/by_year/{publication_year}", response_model=OrderedDict[int, Book], status_code=status.HTTP_200_OK)
-async def search_books_by_year(publication_year: int) -> OrderedDict[int, Book]:
-    books_by_year = {
-        book_id: book
-        for book_id, book in db.books.items()
-        if book.publication_year == publication_year
-    }
-    if not books_by_year:
-        raise HTTPException(status_code=404, detail="No books found for this year")
-    return books_by_year
-
